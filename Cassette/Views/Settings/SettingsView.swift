@@ -321,7 +321,10 @@ struct CacheSectionView: View {
 // MARK: - Downloads section
 
 struct DownloadsSectionView: View {
+    @Environment(\.appContainer) private var container
     let vm: DownloadsViewModel
+
+    private var cacheSettings: CacheSettings? { container?.cacheSettings }
 
     var body: some View {
         Section {
@@ -334,6 +337,24 @@ struct DownloadsSectionView: View {
                 } icon: {
                     SettingsIcon(systemImage: "arrow.down.circle.fill", color: .green)
                 }
+            }
+
+            if let cacheSettings {
+                Picker(selection: Binding<DownloadFormat>(
+                    get: { cacheSettings.downloadFormat },
+                    set: { newValue in cacheSettings.downloadFormat = newValue }
+                )) {
+                    ForEach(DownloadFormat.allCases) { format in
+                        Text(format.displayName).tag(format)
+                    }
+                } label: {
+                    Label {
+                        Text("Format")
+                    } icon: {
+                        SettingsIcon(systemImage: "waveform", color: .purple)
+                    }
+                }
+                .pickerStyle(.menu)
             }
 
             if !vm.displayAlbums.isEmpty {
@@ -429,7 +450,7 @@ struct DownloadsSectionView: View {
         } header: {
             Text("Downloads")
         } footer: {
-            Text("Downloaded tracks are stored permanently and available offline.")
+            Text("Downloaded tracks are stored permanently and available offline. Format sets the quality new downloads are fetched at.")
         }
     }
 }

@@ -17,6 +17,7 @@ final class CacheSettings {
     @ObservationIgnored private var _maxTracks: Int
     @ObservationIgnored private var _cacheFormat: CacheFormat
     @ObservationIgnored private var _cacheOverCellular: Bool
+    @ObservationIgnored private var _downloadFormat: DownloadFormat
 
     // MARK: - Visible properties (manual observation hooks)
 
@@ -60,6 +61,21 @@ final class CacheSettings {
         }
     }
 
+    /// The audio format explicit (offline) downloads are fetched at. Independent of the
+    /// sliding-window cache format above — `DownloadService` reads it per download.
+    var downloadFormat: DownloadFormat {
+        get {
+            access(keyPath: \.downloadFormat)
+            return _downloadFormat
+        }
+        set {
+            withMutation(keyPath: \.downloadFormat) {
+                _downloadFormat = newValue
+            }
+            UserDefaults.standard.set(newValue.rawValue, forKey: Self.downloadFormatKey)
+        }
+    }
+
     // MARK: - Defaults & keys
 
     static let defaultMaxTracks: Int = 10
@@ -67,10 +83,12 @@ final class CacheSettings {
     static let maxMaxTracks: Int = 10
     static let defaultFormat: CacheFormat = .matchStream
     static let defaultCacheOverCellular: Bool = false
+    static let defaultDownloadFormat: DownloadFormat = .default
 
     private static let maxTracksKey = "cassette.cache.maxTracks"
     private static let cacheFormatKey = "cassette.cache.format"
     private static let cacheOverCellularKey = "cassette.cache.cellular"
+    private static let downloadFormatKey = "cassette.download.format"
 
     // MARK: - Init
 
@@ -84,5 +102,8 @@ final class CacheSettings {
         self._cacheFormat = CacheFormat(rawValue: loadedFormatRaw ?? "") ?? Self.defaultFormat
 
         self._cacheOverCellular = UserDefaults.standard.bool(forKey: Self.cacheOverCellularKey)
+
+        let loadedDownloadFormatRaw = UserDefaults.standard.string(forKey: Self.downloadFormatKey)
+        self._downloadFormat = DownloadFormat(rawValue: loadedDownloadFormatRaw ?? "") ?? Self.defaultDownloadFormat
     }
 }

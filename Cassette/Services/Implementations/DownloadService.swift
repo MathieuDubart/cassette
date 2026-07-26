@@ -22,13 +22,15 @@ actor DownloadService: DownloadServiceProtocol {
     private var activePlaylistDownloads: Set<String> = []
     private let toastService: ToastService
     private let downloadSession: URLSession
+    private let cacheSettings: CacheSettings
 
     nonisolated let progressStream: AsyncStream<[DownloadProgress]>
 
-    init(serverService: any ServerServiceProtocol, modelContainer: ModelContainer, toastService: ToastService) {
+    init(serverService: any ServerServiceProtocol, modelContainer: ModelContainer, toastService: ToastService, cacheSettings: CacheSettings) {
         self.serverService = serverService
         self.modelContainer = modelContainer
         self.toastService = toastService
+        self.cacheSettings = cacheSettings
 
         let sessionConfig = URLSessionConfiguration.default
         sessionConfig.timeoutIntervalForRequest = 30
@@ -273,7 +275,15 @@ actor DownloadService: DownloadServiceProtocol {
 
         let creds = try await serverService.activeCredentials()
         let client = try await serverService.makeSwiftSonicClient()
-        guard let streamURL = client.streamURL(id: song.id) else {
+        // Fetch at the user's chosen download format. `.original` maps to Subsonic
+        // `format=raw` (no transcode); the other cases force a transcode via
+        // format + maxBitRate. Read at download time so an in-flight change is honoured.
+        let downloadFormat = await MainActor.run { cacheSettings.downloadFormat }
+        guard let streamURL = client.streamURL(
+            id: song.id,
+            maxBitRate: downloadFormat.subsonicMaxBitRate,
+            format: downloadFormat.subsonicFormat
+        ) else {
             throw CassetteError.mediaNotFound(songId: song.id)
         }
 

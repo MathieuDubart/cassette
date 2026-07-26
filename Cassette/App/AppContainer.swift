@@ -74,7 +74,7 @@ final class AppContainer {
         wrappedPlaylistService = WrappedPlaylistService(serverService: server, statsService: stats)
         radioService = RadioService(serverService: server)
 
-        let download = DownloadService(serverService: server, modelContainer: modelContainer, toastService: toastService)
+        let download = DownloadService(serverService: server, modelContainer: modelContainer, toastService: toastService, cacheSettings: cacheSettings)
         downloadService = download
 
         let library = LibraryService(serverService: server, modelContainer: modelContainer, downloadService: download, statsService: stats)
