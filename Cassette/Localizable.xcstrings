@@ -6579,58 +6579,6 @@
         }
       }
     },
-    "Connected — %lld tracks matched a test search." : {
-      "localizations" : {
-        "de" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Verbunden – %lld Titel entsprachen einer Testsuche."
-          }
-        },
-        "el" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Συνδέθηκε — %lld κομμάτια ταίριαξαν σε δοκιμαστική αναζήτηση."
-          }
-        },
-        "es" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Conectado: %lld canciones coincidieron en una búsqueda de prueba."
-          }
-        },
-        "fr" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Connecté — %lld morceaux correspondent à une recherche test."
-          }
-        },
-        "it" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Connesso — %lld brani corrispondono a una ricerca di prova."
-          }
-        },
-        "ja" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "接続済み — テスト検索で%lld曲が一致しました。"
-          }
-        },
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "已连接 — 测试搜索匹配到 %lld 首曲目。"
-          }
-        },
-        "zh-Hant" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "已連線 — 測試搜尋比對到 %lld 首曲目。"
-          }
-        }
-      }
-    },
     "Connected as" : {
       "localizations" : {
         "de" : {
@@ -6679,6 +6627,58 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "已連線，帳號為"
+          }
+        }
+      }
+    },
+    "Connected — %lld tracks matched a test search." : {
+      "localizations" : {
+        "de" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Verbunden – %lld Titel entsprachen einer Testsuche."
+          }
+        },
+        "el" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Συνδέθηκε — %lld κομμάτια ταίριαξαν σε δοκιμαστική αναζήτηση."
+          }
+        },
+        "es" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Conectado: %lld canciones coincidieron en una búsqueda de prueba."
+          }
+        },
+        "fr" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Connecté — %lld morceaux correspondent à une recherche test."
+          }
+        },
+        "it" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Connesso — %lld brani corrispondono a una ricerca di prova."
+          }
+        },
+        "ja" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "接続済み — テスト検索で%lld曲が一致しました。"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已连接 — 测试搜索匹配到 %lld 首曲目。"
+          }
+        },
+        "zh-Hant" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已連線 — 測試搜尋比對到 %lld 首曲目。"
           }
         }
       }
@@ -23061,7 +23061,7 @@
         }
       }
     },
-    "Share" : {
+     "Share" : {
       "localizations" : {
         "de" : {
           "stringUnit" : {
@@ -31814,5 +31814,5 @@
       }
     }
   },
-  "version" : "1.1"
+  "version" : "1.0"
 }
