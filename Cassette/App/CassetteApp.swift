@@ -178,14 +178,20 @@ struct CassetteApp: App {
             }
             #endif
         }
-        .onChange(of: scenePhase) { _, newPhase in
+        .onChange(of: scenePhase) { oldPhase, newPhase in
             if newPhase == .active,
                let c = container,
                c.playerState.playbackState == .paused {
                 Task { _ = await c.playerService.restoreFromOtherDevice() }
             }
             #if os(iOS)
-            if newPhase == .inactive, let c = container {
+            // `.inactive` occurs in both directions on iOS:
+            //   active -> inactive -> background (leaving)
+            //   background -> inactive -> active (returning)
+            // Only flush while leaving. Flushing during the return path uploads this
+            // device's stale queue immediately before `.active` fetches continuation,
+            // overwriting the newer queue written by the other device.
+            if oldPhase == .active, newPhase == .inactive, let c = container {
                 Task { await c.playerService.saveCurrentPosition() }
                 Logger.session.info("App inactive — position flushed (iOS kill guard)")
             }
